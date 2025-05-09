@@ -16,12 +16,6 @@ dist/
 .DS_Store
 Thumbs.db
 
-# 🔨 Angular (frontend-info-tech)
-frontend-info-tech/.angular/
-frontend-info-tech/.angular/cache/
-frontend-info-tech/dist/
-frontend-info-tech/node_modules/
-frontend-info-tech/coverage/
 
 # 🧰 TypeScript build info
 **/*.tsbuildinfo
@@ -35,6 +29,3 @@ yarn.lock
 coverage/
 .nyc_output/
 *.lcov
-
-# ⚙️ CLI gerado
-backend-info-tech/cli/dist/
