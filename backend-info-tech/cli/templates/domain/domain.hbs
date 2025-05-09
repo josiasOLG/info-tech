@@ -1,0 +1,18 @@
+export interface
+{{pascalCase name}}Props {
+{{#each fieldsArray}}
+  {{this.key}}:
+  {{this.type}};
+{{/each}}
+} export class
+{{pascalCase name}}
+{ constructor( public readonly props:
+{{pascalCase name}}Props, public readonly id?: string ) {}
+
+{{#each fieldsArray}}
+  get
+  {{this.key}}():
+  {{this.type}}
+  { return this.props.{{this.key}}; }
+{{/each}}
+}
