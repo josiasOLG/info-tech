@@ -42,7 +42,10 @@ export class VehicleEditComponent
 
   ngOnInit(): void {
     const vehicle = this.getRouteData<ApiResponse<IVeiculo>>('vehicles');
-
+    this.setBreadcrumb([
+      { label: 'Veículos', url: `/${AppRoutes.VEHICLES}` },
+      { label: 'Editar Veículo' },
+    ]);
     const data = vehicle?.data;
     if (data && !Array.isArray(data)) {
       this.form.patchValue(data);

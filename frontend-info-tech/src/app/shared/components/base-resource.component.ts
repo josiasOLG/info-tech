@@ -1,7 +1,11 @@
-import { Directive, OnInit, inject, signal, computed } from '@angular/core';
+import { Directive, inject, signal } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastService } from '../services/toast.service';
 import { LoadingService } from '../services/loading.service';
+import {
+  BreadcrumbService,
+  BreadcrumbItem,
+} from '../services/breadcrumb.service'; // ajuste o caminho se necessário
 
 @Directive()
 export abstract class BaseResourceComponent {
@@ -9,6 +13,7 @@ export abstract class BaseResourceComponent {
   protected readonly route = inject(ActivatedRoute);
   protected readonly toast = inject(ToastService);
   protected readonly loadingService = inject(LoadingService);
+  protected readonly breadcrumbService = inject(BreadcrumbService); // ✅ injeção
 
   readonly isLoading = this.loadingService.loading;
 
@@ -23,6 +28,10 @@ export abstract class BaseResourceComponent {
   protected setTitle(newTitle: string, newSubtitle?: string) {
     this.title.set(newTitle);
     if (newSubtitle) this.subtitle.set(newSubtitle);
+  }
+
+  protected setBreadcrumb(items: BreadcrumbItem[]) {
+    this.breadcrumbService.set(items);
   }
 
   protected goTo(path: string | string[], extras: any = {}): void {

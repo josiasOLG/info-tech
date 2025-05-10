@@ -3,14 +3,16 @@
 <mat-card>
   <div class="flex">
     <div class="col-5">
-      <mat-form-field appearance="outline" class="w-full">
+      <div class="field">
         <mat-label>Buscar</mat-label>
-        <input
-          matInput
-          (keyup)="applyFilter($event)"
-          placeholder="Digite algo..."
-        />
-      </mat-form-field>
+        <mat-form-field appearance="outline" class="w-full">
+          <input
+            matInput
+            (keyup)="applyFilter($event)"
+            placeholder="Digite algo..."
+          />
+        </mat-form-field>
+      </div>
     </div>
     <div class="col-7">
       <div class="flex justify-content-end">

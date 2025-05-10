@@ -1,7 +1,9 @@
+// breadcrumb.component.ts
 import { Component, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, ActivatedRoute } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
+import { Router } from '@angular/router';
+import { BreadcrumbService } from '../../services';
 
 @Component({
   selector: 'app-breadcrumb',
@@ -11,46 +13,12 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrls: ['./breadcrumb.component.scss'],
 })
 export class BreadcrumbComponent {
+  private breadcrumbService = inject(BreadcrumbService);
   private router = inject(Router);
-  private activatedRoute = inject(ActivatedRoute);
 
-  public breadcrumbs = computed(() => {
-    const route = this.activatedRoute.root;
-    const result: {
-      label: string;
-      icon?: string;
-      url: string;
-    }[] = [];
+  readonly breadcrumbs = computed(() => this.breadcrumbService.breadcrumbs());
 
-    let currentRoute = route;
-    let url = '';
-
-    while (currentRoute) {
-      const children = currentRoute.children;
-      if (children.length === 0) break;
-
-      const child = children[0];
-      const routeSnapshot = child.snapshot;
-      const routeConfig = routeSnapshot.routeConfig;
-
-      if (routeConfig && routeSnapshot.data?.['title']) {
-        const path = routeConfig.path ?? '';
-        url += '/' + path;
-
-        result.push({
-          label: routeSnapshot.data['title'],
-          icon: routeSnapshot.data['icon'],
-          url,
-        });
-      }
-
-      currentRoute = child;
-    }
-
-    return result;
-  });
-
-  public goTo(url: string) {
-    this.router.navigateByUrl(url);
+  goTo(url?: string) {
+    if (url) this.router.navigateByUrl(url);
   }
 }

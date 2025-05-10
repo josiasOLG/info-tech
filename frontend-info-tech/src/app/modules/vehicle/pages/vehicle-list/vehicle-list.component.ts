@@ -22,7 +22,7 @@ import {
   SharedHeaderComponent,
 } from '../../../../shared/components';
 import { extractData } from '../../../../core';
-import { AppRoutes } from '../../../../shared';
+import { AppRoutes, BreadcrumbService } from '../../../../shared';
 import { VehicleTableListComponent } from '../../components';
 
 @Component({
@@ -71,6 +71,7 @@ export class VehicleListPage
   @ViewChild(MatSort) public sort!: MatSort;
 
   ngOnInit(): void {
+    this.setBreadcrumb([{ label: 'Veículos' }, { label: 'Listar Veículo' }]);
     this.vehicleService.getAll().then((response) => {
       this.dataSource.data = extractData(response);
       console.log(response);

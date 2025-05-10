@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { initVeiculoForm } from '../../schema';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -32,9 +32,19 @@ import { VehicleService } from '../../services';
   templateUrl: './vehicle-create.component.html',
   styleUrls: ['./vehicle-create.component.scss'],
 })
-export class VehicleCreateComponent extends BaseResourceComponent {
+export class VehicleCreateComponent
+  extends BaseResourceComponent
+  implements OnInit
+{
   public form = initVeiculoForm();
   private readonly vehicleService = inject(VehicleService);
+
+  ngOnInit(): void {
+    this.setBreadcrumb([
+      { label: 'Veículos', url: `/${AppRoutes.VEHICLES}` },
+      { label: 'Criar Veículo' },
+    ]);
+  }
 
   public submit(): void {
     if (this.form.invalid) {
