@@ -1,10 +1,29 @@
 import { Routes } from '@angular/router';
-import { VehicleListPage } from './pages';
+import { VehicleCreateComponent, VehicleListPage } from './pages';
 
 export const VehicleRoutes: Routes = [
   {
-    path: '',
+    path: 'list',
     component: VehicleListPage,
-    title: 'Lista de Veículos',
+    data: {
+      title: 'Lista de Veículos',
+      subtitle: 'Lorem ipsum dolor sit amet',
+    },
+  },
+  {
+    path: 'create',
+    component: VehicleCreateComponent,
+    data: {
+      title: 'Criar Veículos',
+      subtitle: 'Lorem ipsum dolor sit amet',
+    },
+  },
+  {
+    path: 'edit/:id',
+    component: VehicleCreateComponent,
+    data: {
+      title: 'Editar Veículos',
+      subtitle: 'Lorem ipsum dolor sit amet',
+    },
   },
 ];

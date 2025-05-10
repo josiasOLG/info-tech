@@ -1,21 +1,4 @@
-mat-flat-button,
-mat-raised-button {
-  font-weight: 600;
-  border-radius: 4px;
-  padding: 0.5rem 1.5rem;
-  background-color: var(--color-primary);
-  color: white;
-
-  &:hover {
-    background-color: var(--color-primary-dark);
-  }
-}
-
-mat-icon-button {
-  color: var(--color-primary);
-  transition: background-color 0.2s;
-
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.04);
-  }
+.mat-mdc-raised-button,
+.mat-mdc-unelevated-button {
+  border-radius: 0 !important;
 }

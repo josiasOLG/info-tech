@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 export const Create{{pascalCase name}}Schema = z.object({
+  _id: z.string().optional(),
 {{#each fieldsArray}}
   {{this.key}}: z.{{this.type}}(),
 {{/each}}

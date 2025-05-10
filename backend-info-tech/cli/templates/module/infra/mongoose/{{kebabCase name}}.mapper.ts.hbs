@@ -4,24 +4,27 @@ import { Create{{pascalCase name}}Dto } from '../../application/dto/create-{{keb
 
 export class {{pascalCase name}}Mapper {
   static toDomain(doc: {{pascalCase name}}Document): {{pascalCase name}} {
-    return new {{pascalCase name}}({
+    return new {{pascalCase name}}(
+      doc._id.toString(),
 {{#each fieldsArray}}
-      {{this.key}}: doc.{{this.key}},
+      doc.{{this.key}}{{#unless @last}},{{/unless}}
 {{/each}}
-    });
+    );
   }
 
   static toPersistence(entity: {{pascalCase name}}): any {
-    return entity.props;
+    return {
+{{#each fieldsArray}}
+      {{this.key}}: entity.{{this.key}},
+{{/each}}
+    };
   }
 
   static dtoToPartialEntity(dto: Partial<Create{{pascalCase name}}Dto>): Partial<{{pascalCase name}}> {
     return {
-      props: {
 {{#each fieldsArray}}
-        {{this.key}}: dto.{{this.key}},
+      {{this.key}}: dto.{{this.key}},
 {{/each}}
-      }
-    } as Partial<{{pascalCase name}}>;
+    };
   }
 }

@@ -1,43 +1,112 @@
-import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Body,
+  Param,
+  Res,
+} from '@nestjs/common';
+import { Response } from 'express';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiParam,
+  ApiBody,
+} from '@nestjs/swagger';
+
 import { Create{{pascalCase name}}Dto } from '../../application/dto/create-{{kebabCase name}}.dto';
 import { Create{{pascalCase name}} } from '../../application/usecases/create-{{kebabCase name}}.usecase';
 import { Delete{{pascalCase name}} } from '../../application/usecases/delete-{{kebabCase name}}.usecase';
 import { GetAll{{pascalCase name}}s } from '../../application/usecases/get-all-{{kebabCase name}}s.usecase';
 import { Get{{pascalCase name}}ById } from '../../application/usecases/get-{{kebabCase name}}-by-id.usecase';
 import { Update{{pascalCase name}} } from '../../application/usecases/update-{{kebabCase name}}.usecase';
+import { HttpResponse } from 'src/shared';
 
+@ApiTags('{{pascalCase name}}s')
 @Controller('{{kebabCase name}}s')
 export class {{pascalCase name}}Controller {
   constructor(
-    private createUseCase: Create{{pascalCase name}},
-    private deleteUseCase: Delete{{pascalCase name}},
-    private getAllUseCase: GetAll{{pascalCase name}}s,
-    private getByIdUseCase: Get{{pascalCase name}}ById,
-    private updateUseCase: Update{{pascalCase name}},
+    private readonly createUseCase: Create{{pascalCase name}},
+    private readonly deleteUseCase: Delete{{pascalCase name}},
+    private readonly getAllUseCase: GetAll{{pascalCase name}}s,
+    private readonly getByIdUseCase: Get{{pascalCase name}}ById,
+    private readonly updateUseCase: Update{{pascalCase name}},
   ) {}
 
   @Post()
-  create(@Body() dto: Create{{pascalCase name}}Dto) {
-    return this.createUseCase.execute(dto);
+  @ApiOperation({ summary: 'Cria um novo {{kebabCase name}}' })
+  @ApiBody({ type: Create{{pascalCase name}}Dto })
+  async create(@Body() dto: Create{{pascalCase name}}Dto, @Res() res: Response) {
+    try {
+      const result = await this.createUseCase.execute(dto);
+      return HttpResponse.created(res, result, '{{pascalCase name}} criado com sucesso');
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : 'Erro interno ao criar {{kebabCase name}}';
+      return HttpResponse.error(res, message);
+    }
   }
 
   @Get()
-  findAll() {
-    return this.getAllUseCase.execute();
+  @ApiOperation({ summary: 'Lista todos os {{kebabCase name}}s' })
+  async findAll(@Res() res: Response) {
+    try {
+      const result = await this.getAllUseCase.execute();
+      return HttpResponse.ok(res, result);
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : 'Erro ao buscar {{kebabCase name}}s';
+      return HttpResponse.error(res, message);
+    }
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.getByIdUseCase.execute(id);
+  @ApiOperation({ summary: 'Busca um {{kebabCase name}} pelo ID' })
+  @ApiParam({ name: 'id', description: 'ID do {{kebabCase name}}' })
+  async findOne(@Param('id') id: string, @Res() res: Response) {
+    try {
+      const result = await this.getByIdUseCase.execute(id);
+      if (!result) return HttpResponse.notFound(res, '{{pascalCase name}} não encontrado');
+      return HttpResponse.ok(res, result);
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : 'Erro ao buscar {{kebabCase name}}';
+      return HttpResponse.error(res, message);
+    }
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() dto: Partial<Create{{pascalCase name}}Dto>) {
-    return this.updateUseCase.execute(id, dto);
+  @ApiOperation({ summary: 'Atualiza um {{kebabCase name}} existente' })
+  @ApiParam({ name: 'id', description: 'ID do {{kebabCase name}} a ser atualizado' })
+  @ApiBody({ type: Create{{pascalCase name}}Dto })
+  async update(
+    @Param('id') id: string,
+    @Body() dto: Partial<Create{{pascalCase name}}Dto>,
+    @Res() res: Response,
+  ) {
+    try {
+      const result = await this.updateUseCase.execute(id, dto);
+      return HttpResponse.ok(res, result, '{{pascalCase name}} atualizado com sucesso');
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : 'Erro ao atualizar {{kebabCase name}}';
+      return HttpResponse.error(res, message);
+    }
   }
 
   @Delete(':id')
-  delete(@Param('id') id: string) {
-    return this.deleteUseCase.execute(id);
+  @ApiOperation({ summary: 'Remove um {{kebabCase name}} pelo ID' })
+  @ApiParam({ name: 'id', description: 'ID do {{kebabCase name}} a ser removido' })
+  async delete(@Param('id') id: string, @Res() res: Response) {
+    try {
+      await this.deleteUseCase.execute(id);
+      return HttpResponse.ok(res, null, '{{pascalCase name}} removido com sucesso');
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : 'Erro ao remover {{kebabCase name}}';
+      return HttpResponse.error(res, message);
+    }
   }
 }

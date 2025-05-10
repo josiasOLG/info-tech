@@ -1,0 +1,54 @@
+import { Injectable } from '@angular/core';
+import { CustomHttpClient } from '../../../shared/http/custom-http-client.service';
+import { CreateVeiculoSchema, IVeiculo } from '../schema/create-veiculo.schema';
+import { ApiResponse } from '../../../shared';
+
+const VeiculoArraySchema = CreateVeiculoSchema.array();
+
+@Injectable({ providedIn: 'root' })
+export class VehicleService {
+  private readonly Api = {
+    base: '',
+    byId: (id: string) => `/${id}`,
+    search: '/search',
+  };
+
+  private client: ReturnType<CustomHttpClient['createDomainClient']>;
+
+  constructor(private http: CustomHttpClient) {
+    this.client = this.http.createDomainClient('veiculos');
+  }
+
+  getAll(params?: { page?: number; search?: string }) {
+    return this.client.get<ApiResponse<IVeiculo>>(this.Api.base, { params });
+  }
+
+  getById(id: string) {
+    return this.client.get<IVeiculo>(this.Api.byId(id), {
+      schema: CreateVeiculoSchema,
+    });
+  }
+
+  searchByPlate(plate: string) {
+    return this.client.get<IVeiculo[]>(this.Api.search, {
+      params: { placa: plate },
+      schema: VeiculoArraySchema,
+    });
+  }
+
+  create(data: Partial<IVeiculo>) {
+    return this.client.post<IVeiculo>(this.Api.base, data, {
+      schema: CreateVeiculoSchema,
+    });
+  }
+
+  update(id: string, data: Partial<IVeiculo>) {
+    return this.client.put<IVeiculo>(this.Api.byId(id), data, {
+      schema: CreateVeiculoSchema,
+    });
+  }
+
+  delete(id: string) {
+    return this.client.delete<void>(this.Api.byId(id));
+  }
+}

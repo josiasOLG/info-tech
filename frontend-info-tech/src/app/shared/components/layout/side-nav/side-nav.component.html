@@ -1,31 +1,62 @@
-<mat-nav-list class="flex flex-column gap-2">
-  <a
-    mat-list-item
-    routerLink="/dashboard"
-    class="flex align-items-center gap-2 p-2 border-round hover:surface-100 transition-colors"
-    routerLinkActive="active-link"
-  >
-    <mat-icon>dashboard</mat-icon>
-    <span class="hidden md:inline">Dashboard</span>
-  </a>
+<div class="flex flex-column h-full p-3">
+  <div class="logo mb-4">Admin</div>
 
-  <a
-    mat-list-item
-    routerLink="/users"
-    class="flex align-items-center gap-2 p-2 border-round hover:surface-100 transition-colors"
-    routerLinkActive="active-link"
-  >
-    <mat-icon>group</mat-icon>
-    <span class="hidden md:inline">Usuários</span>
-  </a>
+  <div class="user-info">
+    <img
+      src="https://randomuser.me/api/portraits/women/44.jpg"
+      alt="Avatar"
+      class="user-avatar"
+    />
+    <div class="user-meta">
+      <span>Usuário</span>
+    </div>
+  </div>
 
-  <a
-    mat-list-item
-    routerLink="/settings"
-    class="flex align-items-center gap-2 p-2 border-round hover:surface-100 transition-colors"
-    routerLinkActive="active-link"
-  >
-    <mat-icon>settings</mat-icon>
-    <span class="hidden md:inline">Configurações</span>
-  </a>
-</mat-nav-list>
+  <mat-nav-list class="flex flex-column gap-1">
+    <ng-container *ngFor="let item of menuItems">
+      <div *ngIf="item.section" class="section-title">{{ item.section }}</div>
+
+      <ng-container *ngIf="!item.section && item.children?.length">
+        <div
+          class="nav-link flex justify-between align-items-center cursor-pointer"
+          (click)="toggleDropdown(item)"
+        >
+          <div class="flex align-items-center gap-2">
+            <mat-icon *ngIf="item.icon">{{ item.icon }}</mat-icon>
+            <span>{{ item.label }}</span>
+          </div>
+          <mat-icon class="text-sm">
+            {{ isDropdownOpen(item) ? "expand_less" : "expand_more" }}
+          </mat-icon>
+        </div>
+
+        <ng-container *ngIf="isDropdownOpen(item)">
+          <a
+            *ngFor="let child of item.children"
+            mat-list-item
+            (click)="handleClick(child)"
+            [routerLink]="child.link"
+            routerLinkActive="active-link"
+            class="nav-link flex align-items-center gap-2 ml-3"
+          >
+            <mat-icon *ngIf="child.icon">{{ child.icon }}</mat-icon>
+            <span class="__label">{{ child.label }}</span>
+          </a>
+        </ng-container>
+      </ng-container>
+
+      <ng-container *ngIf="!item.section && !item.children?.length">
+        <a
+          mat-list-item
+          (click)="handleClick(item)"
+          [routerLink]="item.link"
+          routerLinkActive="active-link"
+          class="nav-link flex align-items-center gap-2"
+        >
+          <mat-icon *ngIf="item.icon">{{ item.icon }}</mat-icon>
+          <span class="__label">{{ item.label }}</span>
+        </a>
+      </ng-container>
+    </ng-container>
+  </mat-nav-list>
+</div>

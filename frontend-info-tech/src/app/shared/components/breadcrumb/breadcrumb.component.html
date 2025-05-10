@@ -1,0 +1,23 @@
+<nav
+  class="flex justify-content-end gap-2 text-sm text-color-secondary w-full mt-1"
+>
+  <ng-container *ngFor="let item of breadcrumbs(); let last = last">
+    <span
+      *ngIf="!last"
+      class="cursor-pointer hover:underline flex align-items-center gap-1"
+      (click)="goTo(item.url)"
+    >
+      <mat-icon *ngIf="item.icon" class="text-sm">{{ item.icon }}</mat-icon>
+      {{ item.label }}
+      <span class="mx-1">/</span>
+    </span>
+
+    <span
+      *ngIf="last"
+      class="text-color font-semibold flex align-items-center gap-1"
+    >
+      <mat-icon *ngIf="item.icon" class="text-sm">{{ item.icon }}</mat-icon>
+      {{ item.label }}
+    </span>
+  </ng-container>
+</nav>

@@ -1,9 +1,8 @@
 export class {{pascalCase name}} {
   constructor(
-    public props: {
+    public readonly _id: string,
 {{#each fieldsArray}}
-      {{this.key}}: {{this.type}};
+    public readonly {{this.key}}: {{this.type}},
 {{/each}}
-    }
   ) {}
 }

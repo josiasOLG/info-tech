@@ -1,4 +1,10 @@
-import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  ViewChild,
+  AfterViewInit,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -9,6 +15,15 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { VehicleService } from '../../services';
+import { IVeiculo } from '../../schema';
+import {
+  BaseResourceComponent,
+  SharedHeaderComponent,
+} from '../../../../shared/components';
+import { extractData } from '../../../../core';
+import { AppRoutes } from '../../../../shared';
+import { VehicleTableListComponent } from '../../components';
 
 @Component({
   selector: 'app-vehicle-list-page',
@@ -24,36 +39,50 @@ import { MatInputModule } from '@angular/material/input';
     MatSortModule,
     MatFormFieldModule,
     MatInputModule,
+    SharedHeaderComponent,
+    VehicleTableListComponent,
   ],
   templateUrl: './vehicle-list.component.html',
   styleUrls: ['./vehicle-list.component.scss'],
 })
-export class VehicleListPage implements AfterViewInit {
-  displayedColumns = ['placa', 'modelo', 'acoes'];
-  vehicles = [
-    { id: '1', placa: 'ABC-1234', modelo: 'Corolla' },
-    { id: '2', placa: 'XYZ-9876', modelo: 'Onix' },
-    { id: '3', placa: 'DEF-4567', modelo: 'Civic' },
-    { id: '4', placa: 'GHI-8901', modelo: 'HB20' },
-    { id: '5', placa: 'JKL-2222', modelo: 'Polo' },
-    { id: '6', placa: 'MNO-3333', modelo: 'Golf' },
-    { id: '7', placa: 'PQR-4444', modelo: 'Argo' },
-    { id: '8', placa: 'STU-5555', modelo: 'Compass' },
-    { id: '9', placa: 'VWX-6666', modelo: 'Spin' },
-    { id: '10', placa: 'YZA-7777', modelo: 'T-Cross' },
-  ];
+export class VehicleListPage
+  extends BaseResourceComponent
+  implements OnInit, AfterViewInit
+{
+  private vehicleService = inject(VehicleService);
 
-  dataSource = new MatTableDataSource(this.vehicles);
+  public displayedColumns = this.generateDisplayedColumns<IVeiculo>(
+    {
+      id: 0,
+      placa: '',
+      modelo: '',
+      chassi: '',
+      renavam: '',
+      ano: '',
+    },
+    {
+      exclude: ['id'],
+      includeActions: true,
+    }
+  );
+  public dataSource = new MatTableDataSource<IVeiculo>([]);
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator) public paginator!: MatPaginator;
+  @ViewChild(MatSort) public sort!: MatSort;
 
-  ngAfterViewInit() {
+  ngOnInit(): void {
+    this.vehicleService.getAll().then((response) => {
+      this.dataSource.data = extractData(response);
+      console.log(response);
+    });
+  }
+
+  ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
 
-  applyFilter(event: Event) {
+  public applyFilter(event: Event): void {
     const value = (event.target as HTMLInputElement).value;
     this.dataSource.filter = value.trim().toLowerCase();
 
@@ -62,8 +91,12 @@ export class VehicleListPage implements AfterViewInit {
     }
   }
 
-  excluir(id: string) {
-    this.vehicles = this.vehicles.filter((v) => v.id !== id);
-    this.dataSource.data = this.vehicles;
+  public excluir(id: number): void {
+    const updated = this.dataSource.data.filter((v) => v.id !== id);
+    this.dataSource.data = updated;
+  }
+
+  public goToCreate(): void {
+    this.goTo('/vehicle/create');
   }
 }

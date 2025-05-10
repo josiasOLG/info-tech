@@ -1,54 +1,29 @@
+<app-shared-header></app-shared-header>
+
 <mat-card>
-  <div class="flex justify-between align-items-center mb-3">
-    <h2 class="m-0">Lista de Veículos</h2>
-    <button mat-flat-button color="primary" [routerLink]="['/vehicle/novo']">
-      <mat-icon class="mr-2">add</mat-icon>
-      Novo Veículo
-    </button>
+  <div class="flex">
+    <div class="col-5">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Buscar</mat-label>
+        <input
+          matInput
+          (keyup)="applyFilter($event)"
+          placeholder="Digite algo..."
+        />
+      </mat-form-field>
+    </div>
+    <div class="col-7">
+      <div class="flex justify-content-end">
+        <button mat-flat-button color="primary" (click)="goToCreate()">
+          <mat-icon class="mr-2">add</mat-icon>
+          Novo Veículo
+        </button>
+      </div>
+    </div>
   </div>
 
-  <mat-form-field appearance="outline" class="w-full mb-3">
-    <mat-label>Buscar</mat-label>
-    <input
-      matInput
-      (keyup)="applyFilter($event)"
-      placeholder="Digite algo..."
-    />
-  </mat-form-field>
-
-  <table mat-table [dataSource]="dataSource" matSort class="w-full">
-    <ng-container matColumnDef="placa">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Placa</th>
-      <td mat-cell *matCellDef="let v">{{ v.placa }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="modelo">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Modelo</th>
-      <td mat-cell *matCellDef="let v">{{ v.modelo }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="acoes">
-      <th mat-header-cell *matHeaderCellDef>Ações</th>
-      <td mat-cell *matCellDef="let v">
-        <button
-          mat-icon-button
-          color="primary"
-          [routerLink]="['/vehicle/editar', v.id]"
-        >
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button mat-icon-button color="warn" (click)="excluir(v.id)">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  </table>
-
-  <mat-paginator
-    [pageSizeOptions]="[5, 10, 25]"
-    showFirstLastButtons
-  ></mat-paginator>
+  <app-vehicle-table-list
+    [dataSource]="dataSource"
+    [displayedColumns]="displayedColumns"
+  ></app-vehicle-table-list>
 </mat-card>

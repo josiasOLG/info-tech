@@ -1,7 +1,7 @@
-import { Schema, Document, model } from 'mongoose';
+import { Schema, Document } from 'mongoose';
 
 export interface VeiculoDocument extends Document {
-  id: number;
+  _id: string;
   placa: string;
   chassi: string;
   renavam: string;
@@ -10,12 +10,9 @@ export interface VeiculoDocument extends Document {
 }
 
 export const VeiculoSchema = new Schema({
-  id: { type: Number, required: true },
   placa: { type: String, required: true },
   chassi: { type: String, required: true },
   renavam: { type: String, required: true },
   modelo: { type: String, required: true },
   ano: { type: String, required: true },
 });
-
-export const VeiculoModel = model<VeiculoDocument>('Veiculo', VeiculoSchema);

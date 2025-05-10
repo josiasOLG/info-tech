@@ -8,7 +8,12 @@ export class Create{{pascalCase name}} {
   constructor(private readonly repository: {{pascalCase name}}Repository) {}
 
   async execute(data: Create{{pascalCase name}}Dto): Promise<{{pascalCase name}}> {
-    const entity = new {{pascalCase name}}(data);
-    return await this.repository.create(entity);
+    const entity = new {{pascalCase name}}(
+      '', // _id será gerado automaticamente pelo MongoDB
+{{#each fieldsArray}}
+      data.{{this.key}}{{#unless @last}},{{/unless}}
+{{/each}}
+    );
+    return this.repository.create(entity);
   }
 }

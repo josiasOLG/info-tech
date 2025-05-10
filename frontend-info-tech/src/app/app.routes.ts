@@ -7,6 +7,9 @@ export const appRoutes: Routes = [
       import('./modules/vehicle/vehicle-routing.module').then(
         (m) => m.VehicleRoutes
       ),
+    data: {
+      title: 'Veiculos',
+    },
   },
   {
     path: '',

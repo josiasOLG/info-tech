@@ -1,32 +1,39 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+
 import { I{{pascalCase name}}Repository } from '../../domain/i{{kebabCase name}}-repository';
 import { {{pascalCase name}} } from '../../domain/{{kebabCase name}}.entity';
-import { {{pascalCase name}}Model } from '../mongoose/{{kebabCase name}}.model';
+import { {{pascalCase name}}Document } from '../mongoose/{{kebabCase name}}.model';
 import { {{pascalCase name}}Mapper } from '../mongoose/{{kebabCase name}}.mapper';
 
 @Injectable()
 export class {{pascalCase name}}Repository implements I{{pascalCase name}}Repository {
+  constructor(
+    @InjectModel('{{pascalCase name}}') private readonly model: Model<{{pascalCase name}}Document>
+  ) {}
+
   async create(entity: {{pascalCase name}}): Promise<{{pascalCase name}}> {
-    const doc = await {{pascalCase name}}Model.create({{pascalCase name}}Mapper.toPersistence(entity));
+    const doc = await this.model.create({{pascalCase name}}Mapper.toPersistence(entity));
     return {{pascalCase name}}Mapper.toDomain(doc);
   }
 
   async findAll(): Promise<{{pascalCase name}}[]> {
-    const docs = await {{pascalCase name}}Model.find();
+    const docs = await this.model.find().exec();
     return docs.map((doc) => {{pascalCase name}}Mapper.toDomain(doc));
   }
 
   async findById(id: string): Promise<{{pascalCase name}} | null> {
-    const doc = await {{pascalCase name}}Model.findById(id);
+    const doc = await this.model.findById(id).exec();
     return doc ? {{pascalCase name}}Mapper.toDomain(doc) : null;
   }
 
   async update(id: string, data: Partial<{{pascalCase name}}>): Promise<{{pascalCase name}}> {
-    const doc = await {{pascalCase name}}Model.findByIdAndUpdate(id, data, { new: true });
+    const doc = await this.model.findByIdAndUpdate(id, data, { new: true }).exec();
     return {{pascalCase name}}Mapper.toDomain(doc!);
   }
 
   async delete(id: string): Promise<void> {
-    await {{pascalCase name}}Model.findByIdAndDelete(id);
+    await this.model.findByIdAndDelete(id).exec();
   }
 }

@@ -8,7 +8,14 @@ export class CreateVeiculo {
   constructor(private readonly repository: VeiculoRepository) {}
 
   async execute(data: CreateVeiculoDto): Promise<Veiculo> {
-    const entity = new Veiculo(data);
-    return await this.repository.create(entity);
+    const entity = new Veiculo(
+      data._id,
+      data.placa,
+      data.chassi,
+      data.renavam,
+      data.modelo,
+      data.ano,
+    );
+    return this.repository.create(entity);
   }
 }

@@ -1,5 +1,5 @@
 export class CreateVeiculoDto {
-  id: number;
+  _id: string;
   placa: string;
   chassi: string;
   renavam: string;

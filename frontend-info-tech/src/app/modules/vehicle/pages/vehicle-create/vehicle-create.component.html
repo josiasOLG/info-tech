@@ -1,0 +1,69 @@
+<app-shared-header [viewLink]="back"></app-shared-header>
+
+<mat-card>
+  <form [formGroup]="form" (ngSubmit)="submit()" class="grid">
+    <div class="col-12 md:col-12">
+      <mat-label>Placa</mat-label>
+      <mat-form-field appearance="outline" class="w-full mt-2">
+        <input matInput formControlName="placa" placeholder="Placa" />
+      </mat-form-field>
+      <app-component-validate-input
+        [control]="form.get('placa')"
+      ></app-component-validate-input>
+    </div>
+
+    <div class="col-12 md:col-12">
+      <mat-label>Chassi</mat-label>
+      <mat-form-field appearance="outline" class="w-full mt-2">
+        <input matInput formControlName="chassi" placeholder="Chassi" />
+      </mat-form-field>
+      <app-component-validate-input
+        [control]="form.get('chassi')"
+      ></app-component-validate-input>
+    </div>
+
+    <div class="col-12 md:col-12">
+      <mat-label>Renavam</mat-label>
+      <mat-form-field appearance="outline" class="w-full mt-2">
+        <input matInput formControlName="renavam" placeholder="Renavam" />
+      </mat-form-field>
+      <app-component-validate-input
+        [control]="form.get('renavam')"
+      ></app-component-validate-input>
+    </div>
+
+    <div class="col-12 md:col-12">
+      <mat-label>Modelo</mat-label>
+      <mat-form-field appearance="outline" class="w-full mt-2">
+        <input matInput formControlName="modelo" placeholder="Modelo" />
+      </mat-form-field>
+      <app-component-validate-input
+        [control]="form.get('modelo')"
+      ></app-component-validate-input>
+    </div>
+
+    <div class="col-12 md:col-12">
+      <mat-label>Ano</mat-label>
+      <mat-form-field appearance="outline" class="w-full mt-2">
+        <input matInput type="text" formControlName="ano" placeholder="Ano" />
+      </mat-form-field>
+      <app-component-validate-input
+        [control]="form.get('ano')"
+      ></app-component-validate-input>
+    </div>
+
+    <div class="col-12 mt-2">
+      <button
+        mat-flat-button
+        color="secondary"
+        type="submit"
+        [disabled]="!form.valid"
+      >
+        Adicionar veículo
+        <mat-icon aria-label="Example icon-button with a heart icon">
+          add</mat-icon
+        >
+      </button>
+    </div>
+  </form>
+</mat-card>
