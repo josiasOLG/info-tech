@@ -19,36 +19,36 @@ export class VehicleService {
     this.client = this.http.createDomainClient('veiculos');
   }
 
-  getAll(params?: { page?: number; search?: string }) {
+  public getAll(params?: { page?: number; search?: string }) {
     return this.client.get<ApiResponse<IVeiculo>>(this.Api.base, { params });
   }
 
-  getById(id: string) {
+  public getById(id: string) {
     return this.client.get<IVeiculo>(this.Api.byId(id), {
       schema: CreateVeiculoSchema,
     });
   }
 
-  searchByPlate(plate: string) {
+  public searchByPlate(plate: string) {
     return this.client.get<IVeiculo[]>(this.Api.search, {
       params: { placa: plate },
       schema: VeiculoArraySchema,
     });
   }
 
-  create(data: Partial<IVeiculo>) {
+  public create(data: Partial<IVeiculo>) {
     return this.client.post<IVeiculo>(this.Api.base, data, {
       schema: CreateVeiculoSchema,
     });
   }
 
-  update(id: string, data: Partial<IVeiculo>) {
+  public update(id: string, data: Partial<IVeiculo>) {
     return this.client.put<IVeiculo>(this.Api.byId(id), data, {
       schema: CreateVeiculoSchema,
     });
   }
 
-  delete(id: string) {
+  public delete(id: string) {
     return this.client.delete<void>(this.Api.byId(id));
   }
 }

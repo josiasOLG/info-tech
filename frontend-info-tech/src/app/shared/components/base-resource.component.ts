@@ -82,4 +82,21 @@ export abstract class BaseResourceComponent {
 
     return keys;
   }
+
+  protected getRouteData<T = any>(key: string): T | null {
+    return this.route.snapshot.data?.[key] ?? null;
+  }
+
+  protected getChildRouteData<T = any>(key: string): T | null {
+    return this.route.snapshot.firstChild?.data?.[key] ?? null;
+  }
+
+  protected getDeepChildRouteData<T = any>(key: string): T | null {
+    let current = this.route.snapshot.firstChild;
+    while (current) {
+      if (key in current.data) return current.data[key] as T;
+      current = current.firstChild!;
+    }
+    return null;
+  }
 }

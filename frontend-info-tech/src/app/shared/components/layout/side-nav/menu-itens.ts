@@ -18,14 +18,4 @@ export const MENU_ITEMS: IMenuItem[] = [
     icon: 'home',
     link: `/${AppRoutes.VEHICLES}/${AppRoutes.LIST}`,
   },
-  // {
-  //   section: 'Sistema',
-  // },
-  // {
-  //   label: 'Sair',
-  //   icon: 'logout',
-  //   action: () => {
-  //     console.log('Logout');
-  //   },
-  // },
 ];

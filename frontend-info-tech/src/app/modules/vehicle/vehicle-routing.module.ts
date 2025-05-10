@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 import { VehicleCreateComponent, VehicleListPage } from './pages';
+import { vehicleEditResolver } from './resolvers';
+import { VehicleEditComponent } from './pages/vehicle-edit/vehicle-edit.component';
 
 export const VehicleRoutes: Routes = [
   {
@@ -20,10 +22,14 @@ export const VehicleRoutes: Routes = [
   },
   {
     path: 'edit/:id',
-    component: VehicleCreateComponent,
+    component: VehicleEditComponent,
     data: {
       title: 'Editar Veículos',
       subtitle: 'Lorem ipsum dolor sit amet',
     },
+    resolve: {
+      vehicles: vehicleEditResolver,
+    },
   },
+  { path: '', redirectTo: 'list', pathMatch: 'full' },
 ];

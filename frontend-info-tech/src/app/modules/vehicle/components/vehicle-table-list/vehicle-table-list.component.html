@@ -1,45 +1,55 @@
 <div class="col-12">
-  <table mat-table [dataSource]="dataSource" matSort class="w-full">
-    <ng-container matColumnDef="placa">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Placa</th>
-      <td mat-cell *matCellDef="let v">{{ v.placa }}</td>
-    </ng-container>
+  <ng-container *ngIf="dataSource?.data?.length; else loadingState">
+    <table mat-table [dataSource]="dataSource" matSort class="w-full">
+      <ng-container matColumnDef="placa">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Placa</th>
+        <td mat-cell *matCellDef="let v">{{ v.placa }}</td>
+      </ng-container>
 
-    <ng-container matColumnDef="modelo">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Modelo</th>
-      <td mat-cell *matCellDef="let v">{{ v.modelo }}</td>
-    </ng-container>
+      <ng-container matColumnDef="modelo">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Modelo</th>
+        <td mat-cell *matCellDef="let v">{{ v.modelo }}</td>
+      </ng-container>
 
-    <ng-container matColumnDef="chassi">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Chassi</th>
-      <td mat-cell *matCellDef="let v">{{ v.chassi }}</td>
-    </ng-container>
+      <ng-container matColumnDef="chassi">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Chassi</th>
+        <td mat-cell *matCellDef="let v">{{ v.chassi }}</td>
+      </ng-container>
 
-    <ng-container matColumnDef="renavam">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Renavam</th>
-      <td mat-cell *matCellDef="let v">{{ v.renavam }}</td>
-    </ng-container>
+      <ng-container matColumnDef="renavam">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Renavam</th>
+        <td mat-cell *matCellDef="let v">{{ v.renavam }}</td>
+      </ng-container>
 
-    <ng-container matColumnDef="ano">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Ano</th>
-      <td mat-cell *matCellDef="let v">{{ v.ano }}</td>
-    </ng-container>
+      <ng-container matColumnDef="ano">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Ano</th>
+        <td mat-cell *matCellDef="let v">{{ v.ano }}</td>
+      </ng-container>
 
-    <ng-container matColumnDef="acoes">
-      <th mat-header-cell *matHeaderCellDef>Ações</th>
-      <td mat-cell *matCellDef="let v">
-        <button mat-icon-button color="primary" (click)="onEdit(v._id)">
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button mat-icon-button color="warn" (click)="onDelete(v._id)">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="acoes">
+        <th mat-header-cell *matHeaderCellDef>Ações</th>
+        <td mat-cell *matCellDef="let v">
+          <button mat-icon-button color="primary" (click)="onEdit(v._id)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="onDelete(v._id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  </table>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </ng-container>
+
+  <ng-template #loadingState>
+    <app-shared-skeleton
+      height="48px"
+      radius="6px"
+      [count]="5"
+    ></app-shared-skeleton>
+  </ng-template>
 
   <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons>
   </mat-paginator>
