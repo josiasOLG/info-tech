@@ -1,0 +1,14 @@
+import { Injectable } from '@nestjs/common';
+import { Create{{pascalCase name}}Dto } from '../dto/create-{{kebabCase name}}.dto';
+import { {{pascalCase name}}Repository } from '../../infra';
+import { {{pascalCase name}} } from '../../domain/{{kebabCase name}}.entity';
+
+@Injectable()
+export class Create{{pascalCase name}} {
+  constructor(private readonly repository: {{pascalCase name}}Repository) {}
+
+  async execute(data: Create{{pascalCase name}}Dto): Promise<{{pascalCase name}}> {
+    const entity = new {{pascalCase name}}(data);
+    return await this.repository.create(entity);
+  }
+}

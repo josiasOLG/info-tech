@@ -5,6 +5,7 @@ dist/
 .env.*          # Suporta .env.local, .env.prod etc
 *.log
 *.tsbuildinfo
+.angular
 
 # 🔧 Ferramentas de IDE
 .vscode/

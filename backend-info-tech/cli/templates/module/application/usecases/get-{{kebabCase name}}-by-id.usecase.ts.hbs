@@ -1,0 +1,12 @@
+import { Injectable } from '@nestjs/common';
+import { {{pascalCase name}}Repository } from '../../infra';
+import { {{pascalCase name}} } from '../../domain/{{kebabCase name}}.entity';
+
+@Injectable()
+export class Get{{pascalCase name}}ById {
+  constructor(private readonly repository: {{pascalCase name}}Repository) {}
+
+  async execute(id: string): Promise<{{pascalCase name}} | null> {
+    return this.repository.findById(id);
+  }
+}

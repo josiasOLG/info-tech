@@ -1,0 +1,11 @@
+import { Injectable } from '@nestjs/common';
+import { {{pascalCase name}}Repository } from '../../infra';
+
+@Injectable()
+export class Delete{{pascalCase name}} {
+  constructor(private readonly repository: {{pascalCase name}}Repository) {}
+
+  async execute(id: string): Promise<void> {
+    await this.repository.delete(id);
+  }
+}

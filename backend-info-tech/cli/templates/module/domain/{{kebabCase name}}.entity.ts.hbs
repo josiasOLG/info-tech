@@ -1,0 +1,9 @@
+export class {{pascalCase name}} {
+  constructor(
+    public props: {
+{{#each fieldsArray}}
+      {{this.key}}: {{this.type}};
+{{/each}}
+    }
+  ) {}
+}

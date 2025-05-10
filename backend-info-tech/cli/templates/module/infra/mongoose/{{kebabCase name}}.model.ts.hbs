@@ -1,0 +1,15 @@
+import { Schema, Document, model } from 'mongoose';
+
+export interface {{pascalCase name}}Document extends Document {
+{{#each fieldsArray}}
+  {{this.key}}: {{this.type}};
+{{/each}}
+}
+
+const {{camelCase name}}Schema = new Schema({
+{{#each fieldsArray}}
+  {{this.key}}: { type: {{#eq this.type "string"}}String{{else if (eq this.type "number")}}Number{{else if (eq this.type "boolean")}}Boolean{{else}}Schema.Types.Mixed{{/eq}}, required: true },
+{{/each}}
+});
+
+export const {{pascalCase name}}Model = model<{{pascalCase name}}Document>('{{pascalCase name}}', {{camelCase name}}Schema);

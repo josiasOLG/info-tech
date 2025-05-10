@@ -1,0 +1,15 @@
+import { Injectable } from '@nestjs/common';
+import { {{pascalCase name}}Repository } from '../../infra';
+import { Create{{pascalCase name}}Dto } from '../dto/create-{{kebabCase name}}.dto';
+import { {{pascalCase name}} } from '../../domain/{{kebabCase name}}.entity';
+import { {{pascalCase name}}Mapper } from '../../infra/mongoose/{{kebabCase name}}.mapper';
+
+@Injectable()
+export class Update{{pascalCase name}} {
+  constructor(private readonly repository: {{pascalCase name}}Repository) {}
+
+  async execute(id: string, data: Partial<Create{{pascalCase name}}Dto>): Promise<{{pascalCase name}}> {
+    const partialEntity = {{pascalCase name}}Mapper.dtoToPartialEntity(data);
+    return this.repository.update(id, partialEntity);
+  }
+}

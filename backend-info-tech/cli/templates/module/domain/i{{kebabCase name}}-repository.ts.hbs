@@ -1,0 +1,9 @@
+import { {{pascalCase name}} } from './{{kebabCase name}}.entity';
+
+export interface I{{pascalCase name}}Repository {
+  create(data: {{pascalCase name}}): Promise<{{pascalCase name}}>;
+  findById(id: string): Promise<{{pascalCase name}} | null>;
+  findAll(): Promise<{{pascalCase name}}[]>;
+  update(id: string, data: Partial<{{pascalCase name}}> ): Promise<{{pascalCase name}}>;
+  delete(id: string): Promise<void>;
+}

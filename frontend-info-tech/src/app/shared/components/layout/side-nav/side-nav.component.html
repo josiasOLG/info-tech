@@ -1,0 +1,31 @@
+<mat-nav-list class="flex flex-column gap-2">
+  <a
+    mat-list-item
+    routerLink="/dashboard"
+    class="flex align-items-center gap-2 p-2 border-round hover:surface-100 transition-colors"
+    routerLinkActive="active-link"
+  >
+    <mat-icon>dashboard</mat-icon>
+    <span class="hidden md:inline">Dashboard</span>
+  </a>
+
+  <a
+    mat-list-item
+    routerLink="/users"
+    class="flex align-items-center gap-2 p-2 border-round hover:surface-100 transition-colors"
+    routerLinkActive="active-link"
+  >
+    <mat-icon>group</mat-icon>
+    <span class="hidden md:inline">Usuários</span>
+  </a>
+
+  <a
+    mat-list-item
+    routerLink="/settings"
+    class="flex align-items-center gap-2 p-2 border-round hover:surface-100 transition-colors"
+    routerLinkActive="active-link"
+  >
+    <mat-icon>settings</mat-icon>
+    <span class="hidden md:inline">Configurações</span>
+  </a>
+</mat-nav-list>

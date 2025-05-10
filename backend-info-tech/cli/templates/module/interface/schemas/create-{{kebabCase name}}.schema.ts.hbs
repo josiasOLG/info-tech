@@ -1,0 +1,7 @@
+import { z } from 'zod';
+
+export const Create{{pascalCase name}}Schema = z.object({
+{{#each fieldsArray}}
+  {{this.key}}: z.{{this.type}}(),
+{{/each}}
+});

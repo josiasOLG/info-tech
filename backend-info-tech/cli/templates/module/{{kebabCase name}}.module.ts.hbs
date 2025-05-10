@@ -1,0 +1,26 @@
+import { Module } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
+import { {{pascalCase name}}Model } from './infra/mongoose/{{kebabCase name}}.model';
+import { {{pascalCase name}}Repository } from './infra/repository/{{kebabCase name}}.repository';
+import { {{pascalCase name}}Controller } from './interface/http/{{kebabCase name}}.controller';
+import { Create{{pascalCase name}} } from './application/usecases/create-{{kebabCase name}}.usecase';
+import { Delete{{pascalCase name}} } from './application/usecases/delete-{{kebabCase name}}.usecase';
+import { GetAll{{pascalCase name}}s } from './application/usecases/get-all-{{kebabCase name}}s.usecase';
+import { Get{{pascalCase name}}ById } from './application/usecases/get-{{kebabCase name}}-by-id.usecase';
+import { Update{{pascalCase name}} } from './application/usecases/update-{{kebabCase name}}.usecase';
+
+@Module({
+  imports: [
+    MongooseModule.forFeature([{ name: '{{pascalCase name}}', schema: {{pascalCase name}}Model.schema }])
+  ],
+  controllers: [{{pascalCase name}}Controller],
+  providers: [
+    {{pascalCase name}}Repository,
+    Create{{pascalCase name}},
+    Delete{{pascalCase name}},
+    GetAll{{pascalCase name}}s,
+    Get{{pascalCase name}}ById,
+    Update{{pascalCase name}},
+  ]
+})
+export class {{pascalCase name}}Module {}

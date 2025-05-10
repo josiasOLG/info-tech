@@ -1,8 +1,0 @@
-import { z } from "zod"; export const Create{{pascalCase name}}Schema =
-z.object({
-{{#each fieldsArray}}
-  {{this.key}}: z.{{#if (eq this.type "string")}}string(){{else if
-    (eq this.type "number")
-  }}number().int(){{else}}any(){{/if}},
-{{/each}}
-});

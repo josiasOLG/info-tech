@@ -1,0 +1,43 @@
+import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
+import { Create{{pascalCase name}}Dto } from '../../application/dto/create-{{kebabCase name}}.dto';
+import { Create{{pascalCase name}} } from '../../application/usecases/create-{{kebabCase name}}.usecase';
+import { Delete{{pascalCase name}} } from '../../application/usecases/delete-{{kebabCase name}}.usecase';
+import { GetAll{{pascalCase name}}s } from '../../application/usecases/get-all-{{kebabCase name}}s.usecase';
+import { Get{{pascalCase name}}ById } from '../../application/usecases/get-{{kebabCase name}}-by-id.usecase';
+import { Update{{pascalCase name}} } from '../../application/usecases/update-{{kebabCase name}}.usecase';
+
+@Controller('{{kebabCase name}}s')
+export class {{pascalCase name}}Controller {
+  constructor(
+    private createUseCase: Create{{pascalCase name}},
+    private deleteUseCase: Delete{{pascalCase name}},
+    private getAllUseCase: GetAll{{pascalCase name}}s,
+    private getByIdUseCase: Get{{pascalCase name}}ById,
+    private updateUseCase: Update{{pascalCase name}},
+  ) {}
+
+  @Post()
+  create(@Body() dto: Create{{pascalCase name}}Dto) {
+    return this.createUseCase.execute(dto);
+  }
+
+  @Get()
+  findAll() {
+    return this.getAllUseCase.execute();
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.getByIdUseCase.execute(id);
+  }
+
+  @Put(':id')
+  update(@Param('id') id: string, @Body() dto: Partial<Create{{pascalCase name}}Dto>) {
+    return this.updateUseCase.execute(id, dto);
+  }
+
+  @Delete(':id')
+  delete(@Param('id') id: string) {
+    return this.deleteUseCase.execute(id);
+  }
+}
