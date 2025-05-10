@@ -14,7 +14,7 @@
   "prettier.semi": true,
   "prettier.tabWidth": 2,
 
-  // ⛔ Impede que .hbs seja formatado
+  
   "[handlebars]": {
     "editor.formatOnSave": false,
     "editor.defaultFormatter": null,
@@ -32,7 +32,7 @@
     }
   },
 
-  // ✅ ESLint + Prettier ativados para .ts e .js
+ 
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
